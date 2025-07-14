@@ -31,7 +31,7 @@
     <!-- Right: Dynamic Content Display -->
     <div class="col-md-8 mt-3 mt-md-0">
       <div id="note-display" class="card card-body">
-        <h5 id="note-title">Select a note</h5>
+        <h5 class="border-bottom mb-1" id="note-title">Select a note</h5>
         <p id="note-content">Click on a note title to view its content here.</p>
        
       </div>
@@ -85,7 +85,9 @@
       currentNoteId = this.getAttribute('data-id');
 
       document.getElementById('note-title').innerText = title;
-      document.getElementById('note-content').innerHTML = content;
+      const formattedContent = content.replace(/\n/g, "<br>");
+      document.getElementById('note-content').innerHTML = formattedContent;
+      // document.getElementById('note-content').innerHTML = content;
 
       // Show action buttons
       document.getElementById('note-actions').classList.remove('d-none');

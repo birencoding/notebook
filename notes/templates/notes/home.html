@@ -20,7 +20,13 @@
                         </a>
                     </h5>
                     <div class="collapse" id="note-{{ forloop.counter }}">
-                        <p>{{ post.content }}</p>
+                        <pre style="white-space: pre-wrap; font-family: inherit;">
+                        {% autoescape off %}
+                        {{ post.content }}
+                        {% endautoescape %}
+                        </pre>
+
+
                     </div>
                 </li>
                 {% endfor %}
