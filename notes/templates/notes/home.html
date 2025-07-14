@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Notebook{% endblock title %}
+
+{% block header %}      
+<h1>Notebook Home</h1>
+{% endblock header %}
+
+{% block content %} 
+<div class="container">
+    <div class="row">
+        
+        <div class="col-md-12 ">
+            <h2>Recent Notes</h2>
+            <ul class="list-group">
+                {% for post in posts %}
+                <li class="list-group-item">
+                    <h5>
+                        <a data-bs-toggle="collapse" href="#note-{{ forloop.counter }}" role="button" aria-expanded="false" aria-controls="note-{{ forloop.counter }}" style="text-decoration:none;">
+                            {{ post.title }}
+                        </a>
+                    </h5>
+                    <div class="collapse" id="note-{{ forloop.counter }}">
+                        <p>{{ post.content }}</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+    </div>
+</div>  
+{% endblock content %}
+
+
+
+
