@@ -17,12 +17,10 @@
         {% for note in notes %}
           <li class="list-group-item">
             <a href="#"
-                class="note-link text-decoration-none"
-                data-id="{{ note.id }}"
-                data-title="{{ note.title|escapejs }}"
-                data-content="{{ note.content|safe }}">
-                {{ note.title }}
-                </a>
+              class="note-link text-decoration-none"
+              data-id="{{ note.id }}">
+              {{ note.title }}
+            </a>
           </li>
         {% endfor %}
       </ul>
@@ -30,10 +28,11 @@
 
     <!-- Right: Dynamic Content Display -->
     <div class="col-md-8 mt-3 mt-md-0">
-      <div id="note-display" class="card card-body">
+      <div id="note-display" class="card card-body mt-3">
         <h5 class="border-bottom pb-3 mb-1" id="note-title">Select a note</h5>
-        <p id="note-content">Click on a note title to view its content here.</p>
-       
+        <p id="note-content" >
+          Click on a note title to view its content here.
+        </p>
       </div>
       <div class="mt-3 d-none" id="note-actions">
         <a id="update-link" href="#" class="btn btn-sm btn-outline-primary me-2">Update</a>
@@ -75,27 +74,24 @@
 {% block additional_scripts %}
 <script>
 
-
-  document.querySelectorAll('.note-link').forEach(link => {
+document.querySelectorAll('.note-link').forEach(link => {
     link.addEventListener('click', function (e) {
       e.preventDefault();
+      const noteId = this.getAttribute('data-id');
 
-      const title = this.getAttribute('data-title');
-      const content = this.getAttribute('data-content');
-      currentNoteId = this.getAttribute('data-id');
-
-      document.getElementById('note-title').innerText = title;
-      const formattedContent = content.replace(/\n/g, "<br>");
-      document.getElementById('note-content').innerHTML = formattedContent;
-      // document.getElementById('note-content').innerHTML = content;
-
-      // Show action buttons
-      document.getElementById('note-actions').classList.remove('d-none');
-
-    //   console.log("Selected Note ID:", currentNoteId);
-
-      // Set update link
-      document.getElementById('update-link').href = `/notes/update/${currentNoteId}/`;
+      fetch(`/notes/fetch/${noteId}/`)
+        .then(response => {
+          if (!response.ok) throw new Error("Network response was not ok");
+          return response.json();
+        })
+        .then(data => {
+          document.getElementById('note-title').textContent = data.title;
+          const formattedContent = data.content.replace(/\n/g, '<br>');
+          document.getElementById('note-content').innerHTML = formattedContent;
+        })
+        .catch(error => {
+          console.error("Error fetching note:", error);
+        });
     });
   });
 

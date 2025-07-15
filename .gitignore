@@ -1,0 +1,23 @@
+# Python cache files
+*/__pycache__/
+*.py[cod]
+*$py.class
+
+# macOS files
+.DS_Store
+
+
+# Pytest cache
+.pytest_cache/
+
+# Migrations cache (optional to ignore __pycache__ inside migrations)
+**/migrations/__pycache__/
+
+# MyPy and Pylint caches (optional)
+.mypy_cache/
+.pylint.d/
+
+# Byte-compiled / optimized / DLL files
+*.pyd
+*.pyo
+*.so

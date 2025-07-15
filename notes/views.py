@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from .models import Note
 import json
+from django.http import JsonResponse,Http404
 from django.contrib import messages
 # Create your views here.
 @login_required
@@ -36,6 +37,17 @@ def delete_note(request):
     notes = Note.objects.all().order_by('-updated_at')
     return render(request, 'notes/index.html',context={'notes': notes})
 
+@login_required
+def fetch_note(request, note_id):
+    try:
+        note = get_object_or_404(Note, id=note_id, author=request.user)
+        return JsonResponse({
+            'id': note.id,
+            'title': note.title,
+            'content': note.content,
+        })
+    except Http404:
+        return JsonResponse({'error': 'not found |'}, status=404)
 
 @login_required
 def update_note(request, note_id):
